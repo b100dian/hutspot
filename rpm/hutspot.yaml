@@ -37,6 +37,7 @@ PkgBR:
 # Runtime dependencies which are not automatically detected
 Requires:
   - sailfishsilica-qt5 >= 0.10.9 
+  - mpris-qt5-qml-plugin
 
 # All installed files
 Files:

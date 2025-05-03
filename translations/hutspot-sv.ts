@@ -1052,10 +1052,6 @@
         <translation>Ansluten</translation>
     </message>
     <message>
-        <source>Failed to Refresh Authorization Token</source>
-        <translation>Kunde inte uppdatera auktoriserings-token</translation>
-    </message>
-    <message>
         <source>Edit Playlist Details</source>
         <translation>Redigera spelningslistans detaljer</translation>
     </message>

@@ -38,6 +38,8 @@ PkgBR:
 Requires:
   - sailfishsilica-qt5 >= 0.10.9 
   - mpris-qt5-qml-plugin
+  - amber-web-authorization
+  - libamberwebauthorization
 
 # All installed files
 Files:

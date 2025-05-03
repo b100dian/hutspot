@@ -13,6 +13,7 @@ import org.nemomobile.configuration 1.0
 import org.nemomobile.dbus 2.0
 import Sailfish.Media 1.0
 import org.hildon.components 1.0
+import Nemo.Notifications 1.0
 
 import "Spotify.js" as Spotify
 import "Util.js" as Util
@@ -383,22 +384,27 @@ ApplicationWindow {
     }
 
     function startSpotify() {
-        if (!spotify.isLinked()) {
-            spotify.doO2Auth(Spotify._scope, auth_using_browser.value)
+        if (!spotifyAmber.isLinked()) {
+            spotifyAmber.doO2Auth(Spotify._scope, auth_using_browser.value)
         } else {
             var now = new Date ()
             console.log("Currently it is " + now.toDateString() + " " + now.toTimeString())
-            var tokenExpireTime = spotify.getExpires()
-            var tokenExpireDate = new Date(tokenExpireTime*1000)
+            var tokenExpireTime = spotifyAmber.expiresOn * 1000
+            var tokenExpireDate = new Date(tokenExpireTime)
             console.log("Current token expires on: " + tokenExpireDate.toDateString() + " " + tokenExpireDate.toTimeString())
             // do not set the 'global' hasValidToken since we will refresh anyway
             // and that will interfere
             var hasValidToken = tokenExpireDate > now
-            console.log("Token is " + hasValidToken ? "still valid" : "expired")
+            console.log("Token is " + (hasValidToken ? "still valid" : "expired"))
 
             // with Spotify's stupid short living tokens, we can totally assume
             // it's already expired
-            spotify.refreshToken();
+            if (hasValidToken) {
+                // continue using the existing token
+                Spotify._accessToken = spotifyAmber.accessToken
+            } else {
+                spotifyAmber.doRefreshToken();
+            }
         }
 
         history = history_store.value
@@ -416,6 +422,19 @@ ApplicationWindow {
                 }
                 // ToDo: stop Librespot if the token becomes invalid?
             }
+        }
+    }
+
+    Notification {
+        id: notification
+        summary: "Spotify OAuth2"
+    }
+
+    property alias spotifyAmber: spotifyAmberContainer.oauth
+    SpotifyAmberOAuth {
+        id: spotifyAmberContainer
+        oauth {
+            scopes: Spotify.scopes_array
         }
     }
 
@@ -478,69 +497,38 @@ ApplicationWindow {
         onTriggered: {
             var diff = tokenExpireTime - (Date.now() / 1000)
             if(diff < (10*60))
-                spotify.refreshToken()
+                spotifyAmber.doRefreshToken()
         }
     }
 
     property bool hasValidToken: false
 
     Connections {
-        target: spotify
-
-        onExtraTokensReady: { // (const QVariantMap &extraTokens);
-            // extraTokens
-            //   scope: ""
-            //   token_type: "Bearer"
-        }
+        target: spotifyAmber
 
         onLinkingFailed: {
-            console.log("Connections.onLinkingFailed")
+            notification.body = message
+            notification.publish()
+
             app.connectionText = qsTr("Disconnected")
         }
 
         onLinkingSucceeded: {
-            console.log("Connections.onLinkingSucceeded")
-            //console.log("username: " + spotify.getUserName())
-            //console.log("token   : " + spotify.getToken())
-            Spotify._accessToken = spotify.getToken()
-            Spotify._username = spotify.getUserName()
-            tokenExpireTime = spotify.getExpires()
-            var date = new Date(tokenExpireTime*1000)
-            console.log("expires on: " + date.toDateString() + " " + date.toTimeString())
+            // TODO detect if this is just a refresh and don't notify.
+            notification.body = "Linking succeeded"
+            notification.publish()
+
+            Spotify._accessToken = spotifyAmber.accessToken
+            tokenExpireTime = spotifyAmber.expiresIn
+            var expDate = new Date(tokenExpireTime*1000)
+            console.log("expires on: " + expDate.toDateString() + " " + expDate.toTimeString())
+
+            // From refresh flow.
+            var now = new Date()
+            hasValidToken = expDate > now
+
             app.connectionText = qsTr("Connected")
             loadUser()
-        }
-
-        onLinkedChanged: {
-            console.log("Connections.onLinkingChanged")
-        }
-
-        onRefreshFinished: {
-            console.log("Connections.onRefreshFinished error code: " + errorCode +", msg: " + errorString)
-            if(errorCode !== 0) {
-                showErrorMessage(errorString, qsTr("Failed to Refresh Authorization Token"))
-            } else {
-                console.log("expires: " + tokenExpireTime)
-                tokenExpireTime = spotify.getExpires()
-                var expDate = new Date(tokenExpireTime*1000)
-                console.log("expires on: " + expDate.toDateString() + " " + expDate.toTimeString())
-                var now = new Date()
-                hasValidToken = expDate > now
-            }
-        }
-
-        onOpenBrowser: {            
-            if(auth_using_browser.value)
-                Qt.openUrlExternally(url)
-            else
-                scheduleDelayedAction(function() {
-                    pageStack.push(Qt.resolvedUrl("components/WebAuth.qml"),
-                                   {url: url, scale: Screen.widthRatio})
-                })
-        }
-
-        onCloseBrowser: {
-            //loadFirstPage()
         }
     }
 

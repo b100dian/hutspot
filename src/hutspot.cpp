@@ -38,9 +38,6 @@ int main(int argc, char *argv[])
     buildDateTime.append(__TIME__);
     view->rootContext()->setContextProperty("BUILD_DATE_TIME", buildDateTime);
 
-    Spotify spotify;
-    view->rootContext()->setContextProperty("spotify", &spotify);
-
     qmlRegisterUncreatableType<QDeclarativeProcessEnums>("org.hildon.components", 1, 0, "Processes", "");
     qmlRegisterType<QDeclarativeProcess>("org.hildon.components", 1, 0, "Process");
 

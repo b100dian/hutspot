@@ -1059,10 +1059,6 @@
         <translation>Yhdistetty</translation>
     </message>
     <message>
-        <source>Failed to Refresh Authorization Token</source>
-        <translation>Kirjautumistietojen päivtys epäonnistui</translation>
-    </message>
-    <message>
         <source>Edit Playlist Details</source>
         <translation>Muokkaa soittolistan tietoja</translation>
     </message>

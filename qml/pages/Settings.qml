@@ -30,11 +30,15 @@ Page {
         PushUpMenu {
             MenuItem {
                 text: qsTr("Login")
-                onClicked: spotify.doO2Auth(Spotify._scope, app.auth_using_browser.value)
+                onClicked: {
+                    app.spotifyAmber.doO2Auth(Spotify._scope, app.auth_using_browser.value)
+                }
             }
             MenuItem {
                 text: qsTr("Refresh Token")
-                onClicked: spotify.refreshToken()
+                onClicked: {
+                    app.spotifyAmber.doRefreshToken()
+                }
             }
         }
 

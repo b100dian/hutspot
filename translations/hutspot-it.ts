@@ -1052,10 +1052,6 @@
         <translation>Connesso</translation>
     </message>
     <message>
-        <source>Failed to Refresh Authorization Token</source>
-        <translation>Impossibile ricaricare il token</translation>
-    </message>
-    <message>
         <source>Edit Playlist Details</source>
         <translation>Modifica dettagli playlist</translation>
     </message>

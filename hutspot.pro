@@ -46,6 +46,7 @@ SOURCES += \
     src/systemutil.cpp
     
 DISTFILES += \
+    qml/components/SpotifyAmberOAuth.qml \
     qml/cover/CoverPage.qml \
     translations/*.ts \
     qml/pages/Search.qml \

@@ -1059,10 +1059,6 @@
         <translation>已連接</translation>
     </message>
     <message>
-        <source>Failed to Refresh Authorization Token</source>
-        <translation>刷新授權 Token失敗</translation>
-    </message>
-    <message>
         <source>Edit Playlist Details</source>
         <translation>編輯播放列表詳情</translation>
     </message>

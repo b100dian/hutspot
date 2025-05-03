@@ -59,11 +59,15 @@ Page {
         PushUpMenu {
             MenuItem {
                 text: qsTr("Login")
-                onClicked: spotify.doO2Auth(Spotify._scope, app.auth_using_browser.value)
+                onClicked: {
+                    app.spotifyAmber.doO2Auth(Spotify._scope, app.auth_using_browser.value)
+                }
             }
             MenuItem {
                 text: qsTr("Refresh Token")
-                onClicked: spotify.refreshToken()
+                onClicked: {
+                    app.spotifyAmber.doRefreshToken()
+                }
             }
         }
 
@@ -116,11 +120,10 @@ Page {
                         enabled: sp == 1
                         text: qsTr("Set as Current")
                         onClicked: {
-                            if(spotify)
-                                app.setDevice(model.deviceId, model.name, function(error, data){
-                                    if(!error)
-                                        refreshDevices()
-                                })
+                            app.setDevice(model.deviceId, model.name, function(error, data){
+                                if(!error)
+                                    refreshDevices()
+                            })
                         }
                     }
                     MenuItem {

@@ -242,6 +242,7 @@ Item {
 
     Component.onCompleted: loadLibrespotCredentials()
 
+    // TODO do we still need SpConnect?
     function loadLibrespotCredentials() {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", StandardPaths.home + "/.cache/librespot/credentials.json");

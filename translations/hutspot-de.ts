@@ -1059,10 +1059,6 @@
         <translation>verbunden</translation>
     </message>
     <message>
-        <source>Failed to Refresh Authorization Token</source>
-        <translation>Konnte Autorisierungs-Token nicht erneuern</translation>
-    </message>
-    <message>
         <source>Edit Playlist Details</source>
         <translation>Bearbeite Wiedergabelistendetails</translation>
     </message>

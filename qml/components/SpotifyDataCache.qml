@@ -15,11 +15,11 @@ import "../BSArray.js" as BSALib
 
 Item {
 
-    property var _followedPlaylistsId: ({})   //  key is id, stores uri
+    property var _followedPlaylistsId: new BSALib.BSArray()   //  key is id, stores uri
     //property var _followedPlaylistsName: ({}) // key is name, stores id
-    property var _followedArtistsId: ({})   //  key is id, stores uri
-    property var _savedAlbumsId: ({})   //  key is id, stores uri
-    property var _savedTracksId: ({})   //  key is id, stores uri, only for tracks not in a saved album
+    property var _followedArtistsId: new BSALib.BSArray()   //  key is id, stores uri
+    property var _savedAlbumsId: new BSALib.BSArray()   //  key is id, stores uri
+    property var _savedTracksId: new BSALib.BSArray()   //  key is id, stores uri, only for tracks not in a saved album
 
     function isPlaylistFollowed(id) {
         return _followedPlaylistsId.find(id) !== null
@@ -63,7 +63,6 @@ Item {
 
     // Followed Artists
     function loadFollowedArtists() {
-        _followedArtistsId = new BSALib.BSArray()
         _loadFollowedArtists(0)
     }
 

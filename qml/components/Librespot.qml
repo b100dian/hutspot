@@ -209,14 +209,14 @@ Item {
 
         signal jobNew(int id, string path, string unit)
         onJobNew: {
-            console.log("onJobNew id:" + id  + ", path:" + path + ", unit:" + unit)
+            if (false) console.log("onJobNew id:" + id  + ", path:" + path + ", unit:" + unit)
         }
 
         signal jobRemoved(int id, string path, string unit, string result)
         onJobRemoved: {
             if(systemdJob === path)
                 librespotUnit.updateState()
-            console.log("onJobRemoved id:" + id  + ", path:" + path + ", unit:" + unit + ", result:" + result)
+            if (false) console.log("onJobRemoved id:" + id  + ", path:" + path + ", unit:" + unit + ", result:" + result)
         }
     }
 

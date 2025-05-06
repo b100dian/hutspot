@@ -389,7 +389,7 @@ ApplicationWindow {
         } else {
             var now = new Date ()
             console.log("Currently it is " + now.toDateString() + " " + now.toTimeString())
-            var tokenExpireTime = spotifyAmber.expiresOn * 1000
+            tokenExpireTime = spotifyAmber.expiresOn * 1000
             var tokenExpireDate = new Date(tokenExpireTime)
             console.log("Current token expires on: " + tokenExpireDate.toDateString() + " " + tokenExpireDate.toTimeString())
             // do not set the 'global' hasValidToken since we will refresh anyway
@@ -403,7 +403,7 @@ ApplicationWindow {
                 // continue using the existing token
                 Spotify._accessToken = spotifyAmber.accessToken
             } else {
-                spotifyAmber.doRefreshToken();
+                spotifyAmber.doRefreshToken()
             }
         }
 
@@ -519,7 +519,7 @@ ApplicationWindow {
             notification.publish()
 
             Spotify._accessToken = spotifyAmber.accessToken
-            tokenExpireTime = spotifyAmber.expiresIn
+            tokenExpireTime = spotifyAmber.expiresOn
             var expDate = new Date(tokenExpireTime*1000)
             console.log("expires on: " + expDate.toDateString() + " " + expDate.toTimeString())
 
